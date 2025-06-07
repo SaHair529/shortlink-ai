@@ -1,0 +1,5 @@
+request:
+  invalid: 'Неверный запрос'
+  shortlink:
+    create:
+      invalid_link_param: 'Некорректный url'
