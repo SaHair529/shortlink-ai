@@ -3,3 +3,6 @@ request:
   shortlink:
     create:
       invalid_link_param: 'Некорректный url'
+    redirect_to_original:
+      not_found: 'Короткая ссылка не найдена'
+      invalid_shortlink: 'Некорректная короткая ссылка'

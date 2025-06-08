@@ -51,6 +51,19 @@ class ShortLinkController extends AbstractController
         return $this->json($shortLinkEntity, Response::HTTP_OK, [], ['groups' => ['shortLink']]);
     }
 
+    #[Route('/{shortLink}', methods: ['GET'])]
+    public function getOriginalLink(string $shortLink): Response
+    {
+        $shortLinkEntity = $this->em->getRepository(ShortLink::class)->findOneBy(['shortLink' => $shortLink]);
+        if (!$shortLinkEntity) {
+            return $this->json([
+                'error' => $this->translator->trans('request.shortlink.redirect_to_original.not_found')
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->redirect($shortLinkEntity->getOriginalLink());
+    }
+
     private function generateRandomShortPath(int $length = 6): string
     {
         return substr(bin2hex(random_bytes($length)), 0, $length);
