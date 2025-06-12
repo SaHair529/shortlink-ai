@@ -8,3 +8,8 @@ controllers:
         _locale: ru
     defaults:
         _locale: ru
+
+shortlink_redirect:
+    path: /{shortLink}
+    controller: App\Controller\ShortLinkController::getOriginalLink
+    methods: [GET]

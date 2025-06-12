@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import api from '../../components/api';
 import { Button, TextInput, Center, Stack, Text, Box } from '@mantine/core';
 
 function HomePage() {
@@ -17,11 +18,16 @@ function HomePage() {
     setMessage('');
     setLoading(true);
 
-    // Имитация запроса к API
-    setTimeout(() => {
-      setShortUrl('https://short.link/abc123');
+    try {
+      const response = await api.get('/ru/', { params: {link} });
+      setShortUrl(response.data.shortLink || response.data.short_link || '');
+    }
+    catch (error) {
+      setMessage(error.response?.data?.error || 'Ошибка соединения с сервером');
+    } 
+    finally {
       setLoading(false);
-    }, 1200);
+    }
   };
 
   return (

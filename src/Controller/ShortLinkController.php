@@ -14,10 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ShortLinkController extends AbstractController
 {
-    public function __construct(private TranslatorInterface $translator, private EntityManagerInterface $em)
-    {
-        
-    }
+    public function __construct(private TranslatorInterface $translator, private EntityManagerInterface $em) {}
 
     #[Route('/', methods: ['GET'])]
     public function create(Request $request): JsonResponse
@@ -39,7 +36,9 @@ class ShortLinkController extends AbstractController
 
         $shortLinkEntity = $this->em->getRepository(ShortLink::class)->findOneBy(['originalLink' => $link]) ?? new ShortLink();
         if ($shortLinkEntity->getId()) {
-            return $this->json($shortLinkEntity, Response::HTTP_OK, [], ['groups' => ['shortLink']]);
+            return $this->json([
+                'shortLink' => $request->getSchemeAndHttpHost() . "/" . $shortLinkEntity->getShortLink()
+            ]);
         }
 
         $shortLinkEntity->setShortLink($this->generateRandomShortPath(32));
@@ -48,7 +47,9 @@ class ShortLinkController extends AbstractController
         $this->em->persist($shortLinkEntity);
         $this->em->flush();
 
-        return $this->json($shortLinkEntity, Response::HTTP_OK, [], ['groups' => ['shortLink']]);
+        return $this->json([
+            'shortLink' => $request->getSchemeAndHttpHost() . "/" . $shortLinkEntity->getShortLink()
+        ]);
     }
 
     #[Route('/{shortLink}', methods: ['GET'])]
