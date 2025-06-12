@@ -4,14 +4,24 @@ import { Button, TextInput, Center, Stack, Text, Box } from '@mantine/core';
 function HomePage() {
   const [link, setLink] = useState('');
   const [message, setMessage] = useState('');
+  const [shortUrl, setShortUrl] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setShortUrl('');
     if (!/^https?:\/\/\S+\.\S+/.test(link)) {
       setMessage('Пожалуйста, введите корректную ссылку.');
       return;
     }
-    setMessage(`Ваша ссылка: ${link}`);
+    setMessage('');
+    setLoading(true);
+
+    // Имитация запроса к API
+    setTimeout(() => {
+      setShortUrl('https://short.link/abc123');
+      setLoading(false);
+    }, 1200);
   };
 
   return (
@@ -25,14 +35,19 @@ function HomePage() {
             size="md"
             required
           />
-          <Button type="submit" size="sm" fullWidth>
+          <Button type="submit" size="sm" fullWidth loading={loading}>
             Сократить
           </Button>
         </Stack>
         <Box mih={24} mt="md">
           {message && (
-            <Text c='red' size="sm">
+            <Text c="red" size="sm">
               {message}
+            </Text>
+          )}
+          {shortUrl && (
+            <Text c="blue" size="sm" mt="xs" component="a" href={shortUrl} target="_blank" style={{ display: 'block', wordBreak: 'break-all' }}>
+              {shortUrl}
             </Text>
           )}
         </Box>
