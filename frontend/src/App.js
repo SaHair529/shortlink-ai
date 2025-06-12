@@ -11,7 +11,19 @@ function App() {
           <Route path="/" element={<HomePage />} />
         </Routes>
       </Container>
-
+      {/* Логотип в левом нижнем углу */}
+      <img
+        src="/logo.png" // если логотип лежит в public/logo.svg
+        alt="Логотип"
+        style={{
+          position: 'fixed',
+          left: 16,
+          bottom: 16,
+          opacity: 0.85,
+          zIndex: 1000,
+          pointerEvents: 'none'
+        }}
+      />
     </BrowserRouter>
   );
 }
