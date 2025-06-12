@@ -17,8 +17,6 @@ class LinkNormalizer
         if (!empty($parts['query'])) {
             parse_str($parts['query'], $queryParams);
 
-            unset($queryParams['utm_source'], $queryParams['utm_medium'], $queryParams['session_id']);
-
             ksort($queryParams);
         }
 

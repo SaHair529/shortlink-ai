@@ -16,7 +16,7 @@ class ShortLink
     private ?int $id = null;
 
     #[Groups(['shortLink'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $shortLink = null;
 
     #[Groups(['shortLink'])]

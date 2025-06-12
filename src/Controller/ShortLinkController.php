@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ShortLink;
 use App\Service\LinkNormalizer;
+use App\Service\OpenRouterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,7 +15,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ShortLinkController extends AbstractController
 {
-    public function __construct(private TranslatorInterface $translator, private EntityManagerInterface $em) {}
+    public function __construct(private TranslatorInterface $translator, private EntityManagerInterface $em, private OpenRouterService $openRouterService) {}
 
     #[Route('/', methods: ['GET'])]
     public function create(Request $request): JsonResponse
@@ -41,7 +42,15 @@ class ShortLinkController extends AbstractController
             ]);
         }
 
-        $shortLinkEntity->setShortLink($this->generateRandomShortPath(32));
+        $aiShortPath = $this->openRouterService->generateShortPath($link);
+        $exists = $this->em->getRepository(ShortLink::class)->findOneBy(['shortLink' => $aiShortPath]);
+        while ($exists) {
+            $suffix = '_'.substr(bin2hex(random_bytes(2)), 0, 3);
+            $aiShortPath = $aiShortPath . $suffix;
+            $exists = $this->em->getRepository(ShortLink::class)->findOneBy(['shortLink' => $aiShortPath]);
+        }
+
+        $shortLinkEntity->setShortLink($aiShortPath);
         $shortLinkEntity->setOriginalLink($link);
 
         $this->em->persist($shortLinkEntity);
