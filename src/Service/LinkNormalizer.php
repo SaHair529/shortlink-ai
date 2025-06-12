@@ -28,7 +28,13 @@ class LinkNormalizer
         if (!empty($parts['port'])) {
             $normalizedUrl .= ':' . $parts['port'];
         }
-        $normalizedUrl .= $parts['path'] ?? '/';
+
+        $path = $parts['path'] ?? '/';
+        if ($path === '/' || $path === '') {
+            $path = '';
+        }
+        $normalizedUrl .= $path;
+
         if ($query) {
             $normalizedUrl .= '?' . $query;
         }

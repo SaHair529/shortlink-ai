@@ -34,7 +34,7 @@ class ShortLinkController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $shortLinkEntity = $this->em->getRepository(ShortLink::class)->findOneBy(['originalLink' => $link]) ?? new ShortLink();
+        $shortLinkEntity = $this->em->getRepository(ShortLink::class)->findOneBy(['originalLink' => $normalizedLink]) ?? new ShortLink();
         if ($shortLinkEntity->getId()) {
             return $this->json([
                 'shortLink' => $request->getSchemeAndHttpHost() . "/" . $shortLinkEntity->getShortLink()
