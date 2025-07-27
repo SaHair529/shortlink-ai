@@ -57,7 +57,7 @@ class ShortLinkController extends AbstractController
         $this->em->flush();
 
         return $this->json([
-            'shortLink' => $request->getSchemeAndHttpHost() . "/" . $shortLinkEntity->getShortLink()
+            'shortLink' => $request->getSchemeAndHttpHost() . "/shortlink-api/" . $shortLinkEntity->getShortLink()
         ]);
     }
 
