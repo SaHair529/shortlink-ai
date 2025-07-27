@@ -3,13 +3,13 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
-    prefix: /{_locale}
+    prefix: /shortlink-api/{_locale}
     requirements:
         _locale: ru
     defaults:
         _locale: ru
 
 shortlink_redirect:
-    path: /{shortLink}
+    path: /shortlink-api/{shortLink}
     controller: App\Controller\ShortLinkController::getOriginalLink
     methods: [GET]
