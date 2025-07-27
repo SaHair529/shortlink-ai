@@ -13,7 +13,7 @@ function App() {
       </Container>
       {/* Логотип в левом нижнем углу */}
       <img
-        src="/logo.png" // если логотип лежит в public/logo.svg
+        src="/shortlink/logo.png"
         alt="Логотип"
         style={{
           position: 'fixed',
