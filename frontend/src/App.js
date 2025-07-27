@@ -8,7 +8,7 @@ function App() {
     <BrowserRouter>
       <Container px="sm" size="xs">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/shortlink" element={<HomePage />} />
         </Routes>
       </Container>
       {/* Логотип в левом нижнем углу */}
